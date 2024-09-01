@@ -6,12 +6,21 @@ function convertJson() {
         const jsonData = JSON.parse(input);
 
         // تحويل التنسيق إلى التنسيق المطلوب
-        const result = Object.keys(jsonData).map(key => {
-            return `"${key}": "${jsonData[key]}"`;
-        }).join(",\n");
+        const transformedData = {
+            "جامعة حلبجة": {
+                "كلية القانون والاعمال": [
+                    {
+                        "department": jsonData["D"],
+                        "A": jsonData["A"],
+                        "B": jsonData["B"],
+                        "C": jsonData["C"]
+                    }
+                ]
+            }
+        };
 
         // عرض النتيجة
-        resultContainer.textContent = "{\n" + result + "\n}";
+        resultContainer.textContent = JSON.stringify(transformedData, null, 4);
 
     } catch (e) {
         resultContainer.textContent = "يرجى إدخال JSON صحيح.";
