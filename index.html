@@ -33,15 +33,31 @@
 
             try {
                 const jsonData = JSON.parse(jsonInput);
-                const keys = jsonData[0];
-                const values = jsonData.slice(1);
 
-                const result = values.map(row => {
-                    let obj = {};
-                    for (let i = 0; i < keys.length; i++) {
-                        obj[keys[i]] = row[i];
+                const result = {};
+
+                jsonData.slice(1).forEach(row => {
+                    const university = row[5];
+                    const faculty = row[4];
+                    const department = row[3];
+                    const evening = row[0];
+                    const parallel = row[1];
+                    const online = row[2];
+
+                    if (!result[university]) {
+                        result[university] = {};
                     }
-                    return obj;
+
+                    if (!result[university][faculty]) {
+                        result[university][faculty] = [];
+                    }
+
+                    result[university][faculty].push({
+                        department: department,
+                        evening: evening,
+                        parallel: parallel,
+                        online: online
+                    });
                 });
 
                 output.textContent = `const data = ${JSON.stringify(result, null, 2)};`;
