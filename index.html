@@ -16,6 +16,7 @@
         }
         button {
             margin-top: 10px;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -23,6 +24,7 @@
     <h1>تحويل JSON إلى JavaScript</h1>
     <textarea id="jsonInput" placeholder="أدخل بيانات JSON هنا..."></textarea>
     <button onclick="convertJson()">تحويل</button>
+    <button onclick="copyToClipboard()">نسخ</button>
     <h2>كود JavaScript الناتج:</h2>
     <pre id="output"></pre>
 
@@ -64,6 +66,15 @@
             } catch (e) {
                 output.textContent = 'حدث خطأ في تحويل JSON. تأكد من صحة تنسيق JSON.';
             }
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('output').textContent;
+            navigator.clipboard.writeText(output).then(() => {
+                alert('تم نسخ الكود إلى الحافظة!');
+            }).catch(err => {
+                console.error('فشل في نسخ النص: ', err);
+            });
         }
     </script>
 </body>
