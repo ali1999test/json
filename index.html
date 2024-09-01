@@ -3,60 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحويل تنسيق JSON</title>
+    <title>تحويل JSON إلى JavaScript</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            direction: rtl;
-            text-align: right;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 5px;
-        }
-        .header {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
+            margin: 20px;
+            padding: 0;
         }
         textarea {
             width: 100%;
-            height: 150px;
-            margin-bottom: 20px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            height: 200px;
         }
         button {
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .result {
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
-            white-space: pre-wrap; /* Preserve whitespace formatting */
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">تحويل تنسيق JSON</div>
-        <textarea id="jsonInput" placeholder='أدخل JSON هنا'></textarea>
-        <button onclick="convertJson()">تحويل</button>
-        <div id="result" class="result"></div>
-    </div>
-    <script src="script.js"></script>
+    <h1>تحويل JSON إلى JavaScript</h1>
+    <textarea id="jsonInput" placeholder="أدخل بيانات JSON هنا..."></textarea>
+    <button onclick="convertJson()">تحويل</button>
+    <h2>كود JavaScript الناتج:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        function convertJson() {
+            const jsonInput = document.getElementById('jsonInput').value;
+            let output = document.getElementById('output');
+
+            try {
+                const jsonData = JSON.parse(jsonInput);
+                const keys = jsonData[0];
+                const values = jsonData.slice(1);
+
+                const result = values.map(row => {
+                    let obj = {};
+                    for (let i = 0; i < keys.length; i++) {
+                        obj[keys[i]] = row[i];
+                    }
+                    return obj;
+                });
+
+                output.textContent = `const data = ${JSON.stringify(result, null, 2)};`;
+            } catch (e) {
+                output.textContent = 'حدث خطأ في تحويل JSON. تأكد من صحة تنسيق JSON.';
+            }
+        }
+    </script>
 </body>
 </html>
